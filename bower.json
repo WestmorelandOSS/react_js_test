@@ -1,0 +1,19 @@
+{
+  "name": "react_test",
+  "version": "0.0.0",
+  "authors": [
+    "Paul Scarrone"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "react": "~0.11.2"
+  }
+}
