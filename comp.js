@@ -14,19 +14,13 @@ var Meetup = React.createClass({
       error: function(xhr, status, err) {
         console.error(this.props.url, status, err.toString());
       }.bind(this)
-    });
+    }).done(meetupRender());
   },
   render: function() {
-    var eventLoaded;
-    if (this.state.data.results[0]) {
-      eventLoaded = <Event data={this.state.data.results[0]} />;
-    } else {
-      eventLoaded = "";
-    }
     return (
       <div className="meetupEvents">
         <h1>Events</h1>
-        {eventLoaded}
+        <Event data={this.state.data.results} />
       </div>
     );
   }
@@ -34,11 +28,26 @@ var Meetup = React.createClass({
 
 var Event = React.createClass({
   render: function(){
-    return (
-      <div>
-        {this.props.data.status}
-        {this.props.data.venue.name}
-      </div>
-    );
+    var events = this.props.data.map(function(event){
+      var date = new Date(event.time+event.utc_offset).toUTCString()
+      console.log(event)
+      return (
+        <article className='event'>
+          <h2 className='name'><a href={event.event_url}>{event.name}</a></h2>
+          <p>
+            <span className='venue'>Location: {event.venue.name}</span>
+            <span className='time'>{date}</span>
+          </p>
+        </article>
+      )
+    });
+    return <section id='events'>{events}</section>;
   }
-})
+});
+
+var meetupRender = function(){
+  React.renderComponent(
+    <Meetup />,
+    document.getElementById('content')
+  );
+}
